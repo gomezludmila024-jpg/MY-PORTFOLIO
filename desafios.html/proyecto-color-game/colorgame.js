@@ -17,17 +17,17 @@ let juego = {
     intentos: 0,
     terminado: false,
     colorAleatorio: function() {
-    let r = math.floor (math.random() * 256);
-    let g = math.floor(math.random() * 256);
-    let b = math.floor(math.random() * 256);
-    return [r, g, b];
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return "rgb(" + r + ", " + g + ", " + b + ")";
 
         
     },
     generarColores: function(cantidad) {
         let arr = [] ;
         for (let i = 0; i < cantidad; i++) {
-            arr.push(thus.colorAleatorio()) ;
+            arr.push(this.colorAleatorio()) ;
             
         } 
         return arr;
@@ -43,15 +43,15 @@ let juego = {
 
     adivinar: function (numero) {
         let indicereal = numero -1;
-        if(this.colores [indicereal].toString() === this.colorGanador.toString()) {
+        if(this.colores [indicereal] === this.colorGanador) {
             mensaje.textContent = "¡correcto!";
             cambiarColores(this.colorGanador) ;
-            titulo.style.backgroundcolor = "rgb(" + this.colorGanador[0] + ", " + this.colorGanador[1] + ", " + this.colorGanador[2] + ")" ;
+            titulo.style.backgroundColor = this.colorGanador ;
             console.log("correcto");
             
         } else {
             cuadrados[indicereal].style.backgroundColor = "#232323";
-            cuadrados[indicereal].style.display = "none" ;
+            
             mensaje.textContent = "¡Intentalo nuevamente!" ;
             
         }
@@ -72,35 +72,40 @@ let botonDificil = document.querySelector("#hard") ;
 function  pintarTablero() {
 for (let i = 0; i < 6; i++) {
     if (juego.colores[i]) { 
-        cuadrados[i].style.backgroundColor = "rgb(" + juego.colores[i][0] + "," + juego.colores[i][1] + ", " + juego.colores[i][2] + ")";
+        cuadrados[i].style.backgroundColor =juego.colores[i];
         cuadrados[i].style.display = "block" ;
         
         
-        }
         
-             else {
+        
+        } else {
             cuadrados[i].style.display = "none";
         }
 
         
 
-     
+        
         
     }
     if (colorDisplay && juego.colorGanador) {
-        colorDisplay.textContent = "(" + juego.colorGanador.join(",") + ")" ;
+        colorDisplay.textContent = juego.colorGanador
         
+    }
     }
     function cambiarColores(color) {
     for (let i = 0; i < cuadrados.length; i++) {
-    cuadrados[i].style.backgroundColor = "rgb(" + color[0]  + ", "  + color[1] + ", " + color[2]  + ")"  ;
+    cuadrados[i].style.backgroundColor = color;
+
     
+    } if (titulo) {
+    titulo.style.backgroundColor = color;
     }
         
-    }
+    
     
 }
 function nuevojuego() {
+    juego.colores = juego.generarColores(6) ;
     juego.elegircolorGanador() ;
     pintarTablero();
     
@@ -135,7 +140,7 @@ for (let i = 0; i < 6; i++) {
 
     nuevojuego("dificil")
     pintarTablero();
-   
+    
     
 
 
